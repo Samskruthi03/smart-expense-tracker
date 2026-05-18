@@ -1,0 +1,26 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# Environment files — never commit secrets
+.env
+.env.local
+*.env
+
+# OS
+Thumbs.db
+
+# Docker volumes
+postgres-data/
+kafka-data/
+
+# Node
+node_modules/
+dist/
