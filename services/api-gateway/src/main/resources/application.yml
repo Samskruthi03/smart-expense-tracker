@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: ${USER_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/v1/auth/**
+          filters:
+            - JwtAuthFilter
+
+        - id: expense-service
+          uri: ${EXPENSE_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/v1/expenses/**
+          filters:
+            - JwtAuthFilter
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 20
+                redis-rate-limiter.burstCapacity: 40
+                redis-rate-limiter.requestedTokens: 1
+
+        - id: analytics-service
+          uri: ${ANALYTICS_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/v1/analytics/**
+          filters:
+            - JwtAuthFilter
+
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+
+server:
+  port: 8085
+
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET:3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
