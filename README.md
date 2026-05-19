@@ -1,4 +1,4 @@
-# 💸 Smart Expense Tracker
+## Smart Expense Tracker
 
 A production-grade personal finance application built with a microservices architecture. Track expenses, visualise spending patterns, and get real-time analytics — all powered by an event-driven backend.
 
@@ -84,7 +84,6 @@ cd frontend && npm install && npm run dev
 Open http://localhost:5173
 
 ## API
-
 POST   /api/v1/auth/register              Register
 POST   /api/v1/auth/login                 Login → JWT
 GET    /api/v1/auth/me                    Profile
