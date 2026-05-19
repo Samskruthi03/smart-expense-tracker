@@ -28,8 +28,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Install shared events module
-        run: mvn install -pl shared/events -DskipTests -q
+      - name: Install parent and shared modules
+        run: mvn install -N -DskipTests -q && mvn install -pl shared/events -DskipTests -q
 
       - name: Test ${{ matrix.service }}
         run: mvn test -pl services/${{ matrix.service }} -DskipTests -q
@@ -63,6 +63,7 @@ jobs:
 
       - name: Build jar
         run: |
+          mvn install -N -DskipTests -q
           mvn install -pl shared/events -DskipTests -q
           mvn package -pl services/${{ matrix.service }} -DskipTests -q
 
