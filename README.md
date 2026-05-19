@@ -43,7 +43,23 @@ Apache Kafka
 ├──▶ Analytics Service   ← updates monthly summaries
 └──▶ Notification Service ← sends email confirmations
 
-**Why Kafka?** When an expense is created, the expense service publishes an event. Analytics and notifications consume it independently — adding a new consumer requires zero changes to the producer.
+**Why Kaf## Architecture
+
+Five independent microservices, each with its own database:
+
+| Service | Port | Responsibility |
+|---------|------|----------------|
+| API Gateway | 8085 | JWT validation, rate limiting, routing |
+| User Service | 8081 | Registration, login, JWT issuance |
+| Expense Service | 8082 | CRUD, Kafka producer, idempotency |
+| Analytics Service | 8083 | Kafka consumer, spending aggregations |
+| Notification Service | 8084 | Kafka consumer, email notifications |
+
+**Request flow:** Browser → API Gateway → Service → PostgreSQL
+
+**Event flow:** Expense Service → Kafka → Analytics Service + Notification Service
+
+**Why Kafka?** When an expense is created, the expense service publishes an event. Analytics and notifications consume it independently — adding a new consumer requires zero changes to the producer.ka?** When an expense is created, the expense service publishes an event. Analytics and notifications consume it independently — adding a new consumer requires zero changes to the producer.
 
 ## Key Engineering Patterns
 
