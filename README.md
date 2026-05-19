@@ -28,25 +28,6 @@ A production-grade personal finance application built with a microservices archi
 
 Five independent microservices, each with its own database:
 
-Browser
-│
-▼
-API Gateway (8085)          ← JWT validation, rate limiting, routing
-│
-├──▶ User Service (8081)       ← Registration, login, JWT issuance
-├──▶ Expense Service (8082)    ← CRUD, Kafka producer, idempotency
-└──▶ Analytics Service (8083)  ← Kafka consumer, spending aggregations
-│
-▼
-Apache Kafka
-│
-├──▶ Analytics Service   ← updates monthly summaries
-└──▶ Notification Service ← sends email confirmations
-
-**Why Kaf## Architecture
-
-Five independent microservices, each with its own database:
-
 | Service | Port | Responsibility |
 |---------|------|----------------|
 | API Gateway | 8085 | JWT validation, rate limiting, routing |
@@ -59,7 +40,7 @@ Five independent microservices, each with its own database:
 
 **Event flow:** Expense Service → Kafka → Analytics Service + Notification Service
 
-**Why Kafka?** When an expense is created, the expense service publishes an event. Analytics and notifications consume it independently — adding a new consumer requires zero changes to the producer.ka?** When an expense is created, the expense service publishes an event. Analytics and notifications consume it independently — adding a new consumer requires zero changes to the producer.
+**Why Kafka?** When an expense is created, the expense service publishes an event. Analytics and notifications consume it independently — adding a new consumer requires zero changes to the producer.
 
 ## Key Engineering Patterns
 
