@@ -93,15 +93,18 @@ export default function AnalyticsPage() {
               <ResponsiveContainer width="100%" height={220}>
                 <PieChart>
                   <Pie data={pieData} dataKey="value" nameKey="name"
-                    cx="50%" cy="50%" outerRadius={80} label={
-                      ({ name, percentage }) =>
-                        `${name} ${percentage.toFixed(0)}%`
-                    }>
+  cx="50%" cy="50%" outerRadius={80} label={
+    ({ name, value }: { name?: string; value?: number }) => {
+      const total = pieData.reduce((s, d) => s + d.value, 0)
+      const pct = total > 0 ? ((value ?? 0) / total * 100).toFixed(0) : '0'
+      return `${name} ${pct}%`
+    }
+  }>
                     {pieData.map((_, i) => (
                       <Cell key={i} fill={COLORS[i % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(v: number) => `€${v.toFixed(2)}`} />
+                  <Tooltip formatter={(v: unknown) => `€${Number(v).toFixed(2)}`} />
                 </PieChart>
               </ResponsiveContainer>
             )}
@@ -122,7 +125,7 @@ export default function AnalyticsPage() {
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }}
                     tickFormatter={v => `€${v}`} />
-                  <Tooltip formatter={(v: number) => `€${v.toFixed(2)}`} />
+                  <Tooltip formatter={(v: unknown) => `€${Number(v).toFixed(2)}`} />
                   <Bar dataKey="total" fill="#4f6ef7" radius={[4,4,0,0]} />
                 </BarChart>
               </ResponsiveContainer>
