@@ -35,6 +35,7 @@ Five independent microservices, each with its own database:
 | Expense Service | 8082 | CRUD, Kafka producer, idempotency |
 | Analytics Service | 8083 | Kafka consumer, spending aggregations |
 | Notification Service | 8084 | Kafka consumer, email notifications |
+| AI Agent Service | 8086 | LLM-powered finance assistant, RAG pipeline |
 
 **Request flow:** Browser → API Gateway → Service → PostgreSQL
 
@@ -90,6 +91,26 @@ PATCH  /api/v1/expenses/{id}              Update
 DELETE /api/v1/expenses/{id}              Delete
 GET    /api/v1/analytics/monthly/{y}/{m}  Monthly breakdown by category
 GET    /api/v1/analytics/yearly/{year}    Full year overview
+
+## AI Finance Assistant
+
+Natural language interface powered by Llama 3.3 (via Groq) with a RAG pipeline that fetches real expense data before every response.
+
+**Example queries:**
+- "How much did I spend this month?"
+- "Show me my recent expenses"
+- "How does my spending compare across the year?"
+
+**How it works:**
+1. User sends a natural language question
+2. Agent determines which data is needed based on the question
+3. Fetches real data from expense and analytics services
+4. Injects data as context into the LLM prompt (RAG)
+5. LLM generates a grounded, accurate response
+6. Every run is logged with model, latency, tools used, and token estimate
+
+**Stack:** Spring Boot · Spring AI · Groq API · Llama 3.3 70B
+
 
 ## CI/CD
 
