@@ -13,13 +13,15 @@
     <name>Smart Expense Tracker</name>
 
     <modules>
-        <module>shared/events</module>
-        <module>services/api-gateway</module>
-        <module>services/user-service</module>
-        <module>services/expense-service</module>
-        <module>services/analytics-service</module>
-        <module>services/notification-service</module>
-    </modules>
+    <module>shared/events</module>
+    <module>services/api-gateway</module>
+    <module>services/user-service</module>
+    <module>services/expense-service</module>
+    <module>services/analytics-service</module>
+    <module>services/notification-service</module>
+    <module>services/ai-agent-service</module>
+</modules>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
